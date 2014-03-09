@@ -38,15 +38,15 @@
                                                             queue:queue
                                                           options:nil];
         _peripherals = [[NSMutableDictionary alloc] init];
-        
-        // NOTE: We could do background stuff here
     }
     return self;
 }
 
 - (void)startScanning
 {
-    [_centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:SERVICE_UUID]]
+    // Scanning and detecting are used in a similar fashion and the literature
+    // BEWARE which UUID you are using. Also, created the CBUUID, don't just give it a string
+    [_centralManager scanForPeripheralsWithServices:@[SERVICE_CBUUID]
                                             options:@{ CBCentralManagerScanOptionAllowDuplicatesKey:@NO}];
     NSLog(@"CM Scanning started");
 }
@@ -78,11 +78,13 @@
 #pragma mark - CBCentralManager delegate methods
 
 //call on init of centralManager to check if BT is supported and available
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central{
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central
+{
+    // Give class this -> Key point is you cannot scan before hardware is ready
+    
     if (central.state == CBCentralManagerStatePoweredOn) {
         NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
-        //        [self startDetecting];
-        
+        [self startScanning];
     }else if ([central state] == CBCentralManagerStatePoweredOff) {
         NSLog(@"CoreBluetooth BLE hardware is powered off");
     }else if ([central state] == CBCentralManagerStateUnauthorized) {
@@ -137,7 +139,7 @@
 {
     NSLog(@"CM Peripheral didConnectPeripheral:%@", peripheral.identifier);
     peripheral.delegate = self;
-    [peripheral discoverServices:@[[CBUUID UUIDWithString:SERVICE_UUID]]];
+    [peripheral discoverServices:@[SERVICE_CBUUID]];
 }
 
 /** The Transfer Service was discovered */
@@ -152,11 +154,9 @@
     // Loop through the newly filled peripheral.services array, just in case there's more than one.
     for (CBService *service in peripheral.services) {
         NSLog(@"Discovered service with uuid:%@", service.UUID);
-        if ([service.UUID isEqual:[CBUUID UUIDWithString:SERVICE_UUID]]) {
+        if ([service.UUID isEqual:SERVICE_CBUUID]) {
             NSLog(@"CM didDiscoverServices->discoverCharacteristics");
-            [peripheral discoverCharacteristics:@[
-                                                  [CBUUID UUIDWithString:NOTIFY_CHARACTERISTIC_UUID]
-                                                  ] forService:service];
+            [peripheral discoverCharacteristics:@[NOTIFY_CHARACTERISTIC_CBUUID] forService:service];
         }
     }
 }
@@ -178,7 +178,7 @@
     for (CBCharacteristic *characteristic in service.characteristics) {
         
         // And check if it's the right one
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:NOTIFY_CHARACTERISTIC_UUID]])
+        if ([characteristic.UUID isEqual:NOTIFY_CHARACTERISTIC_CBUUID])
         {
             NSLog(@"CM didDiscoverCharacteristicsForService: 'notify'");
             [peripheral setNotifyValue:YES forCharacteristic:characteristic];
@@ -190,7 +190,7 @@
 /** The peripheral letting us know whether our subscribe/unsubscribe happened or not */
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
-    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:NOTIFY_CHARACTERISTIC_UUID]]){
+    if ([characteristic.UUID isEqual:NOTIFY_CHARACTERISTIC_CBUUID]){
         if (characteristic.isNotifying)
         {
             NSLog(@"CM didUpdateNotificationStateForCharacteristic on %@", characteristic);
@@ -215,7 +215,7 @@
         return;
     }
     
-    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:NOTIFY_CHARACTERISTIC_UUID]])
+    if ([characteristic.UUID isEqual:NOTIFY_CHARACTERISTIC_CBUUID])
     {
         NSMutableArray *queue = [self getPeripheralQueue:peripheral];
         NSData *chunk = characteristic.value;

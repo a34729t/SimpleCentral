@@ -24,7 +24,6 @@
     
     _centralManager = [CentralManager sharedInstance];
     _centralManager.delegate = self;
-    [_centralManager startScanning];
 }
 
 - (void)didReceiveMemoryWarning
