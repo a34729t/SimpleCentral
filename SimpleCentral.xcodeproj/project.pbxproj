@@ -22,6 +22,8 @@
 		261CB1FB18CBE35D000D5C2A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 261CB1F918CBE35D000D5C2A /* InfoPlist.strings */; };
 		261CB1FD18CBE35D000D5C2A /* SimpleCentralTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 261CB1FC18CBE35D000D5C2A /* SimpleCentralTests.m */; };
 		261CB20918CBE3D0000D5C2A /* CentralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 261CB20818CBE3D0000D5C2A /* CentralManager.m */; };
+		264456F318CC17880099B7C3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 264456F218CC17880099B7C3 /* README.md */; };
+		264456F518CC17C00099B7C3 /* Lecture.pptx in Resources */ = {isa = PBXBuildFile; fileRef = 264456F418CC17C00099B7C3 /* Lecture.pptx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +59,8 @@
 		261CB20718CBE3D0000D5C2A /* CentralManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CentralManager.h; sourceTree = "<group>"; };
 		261CB20818CBE3D0000D5C2A /* CentralManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CentralManager.m; sourceTree = "<group>"; };
 		261CB20A18CBE3DE000D5C2A /* BLEInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLEInfo.h; sourceTree = "<group>"; };
+		264456F218CC17880099B7C3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		264456F418CC17C00099B7C3 /* Lecture.pptx */ = {isa = PBXFileReference; lastKnownFileType = file; path = Lecture.pptx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +90,8 @@
 		261CB1C218CBE35D000D5C2A = {
 			isa = PBXGroup;
 			children = (
+				264456F218CC17880099B7C3 /* README.md */,
+				264456F418CC17C00099B7C3 /* Lecture.pptx */,
 				261CB1D418CBE35D000D5C2A /* SimpleCentral */,
 				261CB1F618CBE35D000D5C2A /* SimpleCentralTests */,
 				261CB1CD18CBE35D000D5C2A /* Frameworks */,
@@ -245,6 +251,8 @@
 			files = (
 				261CB1EA18CBE35D000D5C2A /* Images.xcassets in Resources */,
 				261CB1E218CBE35D000D5C2A /* Main_iPhone.storyboard in Resources */,
+				264456F518CC17C00099B7C3 /* Lecture.pptx in Resources */,
+				264456F318CC17880099B7C3 /* README.md in Resources */,
 				261CB1D918CBE35D000D5C2A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -478,6 +486,7 @@
 				261CB20218CBE35D000D5C2A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		261CB20318CBE35D000D5C2A /* Build configuration list for PBXNativeTarget "SimpleCentralTests" */ = {
 			isa = XCConfigurationList;
@@ -486,6 +495,7 @@
 				261CB20518CBE35D000D5C2A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
