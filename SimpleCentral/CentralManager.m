@@ -16,7 +16,6 @@
 
 @end
 
-
 @implementation CentralManager
 
 + (CentralManager *)sharedInstance
