@@ -216,62 +216,13 @@
     
     if ([characteristic.UUID isEqual:NOTIFY_CHARACTERISTIC_CBUUID])
     {
-        NSMutableArray *queue = [self getPeripheralQueue:peripheral];
-        NSData *chunk = characteristic.value;
-        NSString *stringFromData = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];
-        NSLog(@"CM rx chunk: %@", stringFromData);
+        NSString *msg = [[NSString alloc] initWithData:characteristic.value encoding:NSUTF8StringEncoding];
+        NSLog(@"CM rx msg: %@", msg);
         
-        if ([chunk isEqual:[self eom]]) {
-            NSData *unchunkedData = [self unchunkData:queue];
-            
-            NSString *fullString = [[NSString alloc] initWithData:unchunkedData encoding:NSUTF8StringEncoding];
-            NSLog(@"CM **DUVFC Received: %@**", fullString);
-            
-            // NOTE: Delagates to UI fire in main thread
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [_delegate receivedFromPerpiheral:peripheral msg:fullString];
-            });
-        }else{
-            NSLog(@"addChunk to rxQueue");
-            [queue addObject:chunk];
-        }
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [_delegate receivedFromPerpiheral:peripheral msg:msg];
+        });
     }
 }
-
-
-#pragma mark - Message chunking functions
-
-- (NSData *) eom
-{
-    return [[NSData alloc]init]; // empty data // empty data
-}
-
-- (NSData *) unchunkData:(NSMutableArray *)queue
-{
-    // Called when we've received an EOM
-    
-    if ([queue isEqual:nil] || [queue count] == 0)
-        return nil;
-    
-    NSMutableData *completeData = [[NSMutableData alloc] init];
-    while ([queue count] > 0) {
-        NSData *data = [self dequeue:queue];
-        if (data != nil) {
-            [completeData appendData:data];
-        }
-    }
-    return [NSData dataWithData:completeData];
-}
-
-- (NSData *) dequeue:(NSMutableArray *)queue {
-    id head = [queue objectAtIndex:0];
-    if (head != nil) {
-        [queue removeObjectAtIndex:0];
-        return (NSData *)head;
-    } else {
-        return nil;
-    }
-}
-
 
 @end
