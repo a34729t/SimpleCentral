@@ -12,6 +12,7 @@ data. Watch the log messages carefully!
 
 ## Branches
 
-* master - simple notifications (single packet) from peripheral
+* master
+* simplemsg - simple notifications (single packet) from peripheral
 * chunkmsg - multi-packet notifications from peripheral
-* twitteru - most of the logic is stripped out of the CentralManager and we need to implement it
+* twitteru - most of the logic is stripped out of the CentralManager for learning purposes
